@@ -13,5 +13,6 @@ import java.util.Map;
 @AllArgsConstructor
 public class Transaction {
 
-    Map<Long, Double> transaction;
+    private Long timestamp;
+    private Double amount;
 }
