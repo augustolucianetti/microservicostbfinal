@@ -1,6 +1,7 @@
 package br.com.augustolucianetti.microservicostbfinal.restcontroller;
 
 import br.com.augustolucianetti.microservicostbfinal.exceptions.BadRequestException;
+import br.com.augustolucianetti.microservicostbfinal.exceptions.BusinessException;
 import br.com.augustolucianetti.microservicostbfinal.repository.TransactionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,19 +18,19 @@ public class TransactionsController {
     @Autowired
     TransactionRepository transactionRepository;
 
-    @Autowired
-    BadRequestException badRequestException;
+
 
     @PostMapping(value = "/transactions", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity transactions(@RequestParam("timestamp") Long timestamp, @RequestParam("amount") Double amount) {
+    public ResponseEntity transactions(@RequestParam("timestamp") Long timestamp, @RequestParam("amount") Double amount) throws BadRequestException, BusinessException {
 
         if (timestamp == null) {
-            ResponseEntity responseEntity = badRequestException.handleMissingParams( new MissingServletRequestParameterException( "timestamp", "Long" ) );
-            return responseEntity;
+            throw new BusinessException("error.business.exception.enter.atributes","O atributo timestamp não pode ser nulo", "timestamp");
+            //ResponseEntity responseEntity = badRequestException.handleMissingParams( new MissingServletRequestParameterException( "timestamp", "Long" ) );
+            //return responseEntity;
         }
 
         if (amount == null) {
-            return badRequestException.handleMissingParams( new MissingServletRequestParameterException( "amount", "Double" ) );
+            throw new BusinessException("error.business.exception.enter.atributes","O atributo amount não pode ser nulo", "amount");
         }
 
         Long systemTimestamp = System.currentTimeMillis();
