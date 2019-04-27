@@ -18,4 +18,8 @@ public class TransactionRepository {
     public void addTransaction(Double amount, Long timestamp) {
         transactions.put(timestamp, amount);
     }
+
+    public Map getTransactions() {
+        return transactions;
+    }
 }
